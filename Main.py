@@ -7,7 +7,7 @@ import pygame
 def main():
     pygame.init()
     screen = pygame.display.set_mode(localtypes.screen_size)
-    pygame.display.set_caption("Platformer Jumper")
+    pygame.display.set_caption("Bird Jumper")
 
     player = Player()
 
@@ -37,9 +37,9 @@ def main():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT and player.change_x < 0:
-                    player.stop()
+                    player.is_fade_stop = True
                 if event.key == pygame.K_RIGHT and player.change_x > 0:
-                    player.stop()
+                    player.is_fade_stop = True
 
         active_sprite_list.update()
 
