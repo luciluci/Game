@@ -1,4 +1,5 @@
 from Bird import Player
+from Levels import Level_01
 
 import localtypes
 import pygame
@@ -12,6 +13,9 @@ def main():
     player = Player()
 
     active_sprite_list = pygame.sprite.Group()
+    current_level = Level_01(player)
+    player.level = current_level
+
     player.rect.x = 340
     player.rect.y = localtypes.SCREEN_HEIGHT - player.rect.height
     active_sprite_list.add(player)
@@ -42,8 +46,12 @@ def main():
                     player.is_fade_stop = True
 
         active_sprite_list.update()
+        current_level.update()
 
-        screen.fill(localtypes.BLUE)
+        current_level.shift_world(-2)
+
+        #screen.fill(localtypes.BLUE)
+        current_level.draw(screen)
         active_sprite_list.draw(screen)
 
         # Go ahead and update the screen with what we've drawn.

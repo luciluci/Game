@@ -27,21 +27,51 @@ class Player(pygame.sprite.Sprite):
         self.change_x = 0
         self.change_y = 0
 
+        self.level = None
+
         self.is_fade_stop = False
 
     def update(self):
         self.apply_gravity()
-
-        if self.is_fade_stop == True:
-            self.fade_stop()
-            if self.change_x <= 0.5 and self.change_x >= -0.5:
-                self.change_x = 0
-                self.is_fade_stop = False
+        self.apply_horizontal_fade()
 
         self.rect.x += self.change_x
+
+        colision_sprite = pygame.sprite.spritecollideany(self, self.level.platform_list, False)
+        if colision_sprite:
+            print "COLLISION"
+
+        # for block in block_hit_list:
+        #     # If we are moving right,
+        #     # set our right side to the left side of the item we hit
+        #     if self.change_x > 0:
+        #         self.rect.right = block.rect.left
+        #     elif self.change_x < 0:
+        #         # Otherwise if we are moving left, do the opposite.
+        #         self.rect.left = block.rect.right
+
         self.rect.y += self.change_y
+
+        # for block in block_hit_list:
+        #
+        #     # Reset our position based on the top/bottom of the object.
+        #     if self.change_y > 0:
+        #         self.rect.bottom = block.rect.top
+        #     elif self.change_y < 0:
+        #         self.rect.top = block.rect.bottom
+        #
+        #     # Stop our vertical movement
+        #     self.change_y = 0
+
         #print "(X:%d, Y:%d)" %(self.rect.x, self.rect.y)
         #print "(CH_X:%d, CH_Y:%d)" %(self.change_x, self.change_y)
+
+    def apply_horizontal_fade(self):
+        if self.is_fade_stop == True:
+            self.fade_stop()
+            if self.change_x <= 0.3 and self.change_x >= -0.3:
+                self.change_x = 0
+                self.is_fade_stop = False
 
 
     def apply_gravity(self):
@@ -63,7 +93,7 @@ class Player(pygame.sprite.Sprite):
         if self.index >= len(self.images):
             self.index = 0
         self.image = self.images[self.index]
-        self.change_y = -11
+        self.change_y = -10
 
     def fade_stop(self):
         if self.change_x < 0:
