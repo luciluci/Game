@@ -1,0 +1,6 @@
+1. Create main menu
+	* 1 screen with "play->levels screen, exit"
+2. Create high score
+3. Create start-end game lifecycle
+	* nr of lives, 
+4. create animation for the player/bird

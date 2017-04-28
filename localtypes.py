@@ -12,7 +12,7 @@ SCREEN_HEIGHT = 600
 screen_size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 
 #Planets Gravity index
-EARTH_GRAVITY = 0.55
+EARTH_GRAVITY = 0.60
 
 GRASS_LEFT            = (576, 720, 70, 70)
 GRASS_RIGHT           = (576, 576, 70, 70)

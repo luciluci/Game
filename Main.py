@@ -48,7 +48,7 @@ def main():
         active_sprite_list.update()
         current_level.update()
 
-        current_level.shift_world(-2)
+        current_level.shift_world(-5)
 
         #screen.fill(localtypes.BLUE)
         current_level.draw(screen)
