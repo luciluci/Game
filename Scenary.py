@@ -21,7 +21,7 @@ class Platform(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-class MenuItems(pygame.sprite.Sprite):
+class ButtonBase(pygame.sprite.Sprite):
 
     def __init__(self, sprite_sheet_data):
         pygame.sprite.Sprite.__init__(self)
@@ -33,14 +33,40 @@ class MenuItems(pygame.sprite.Sprite):
                                            sprite_sheet_data[3])
         self.rect = self.image.get_rect()
 
-class PlayButton:
+        #mouse over flags
+        self.is_mouse_over = False
+        self.mouse_over_histoy = False
+
+        #mouse click action type
+        self.click_action = localtypes.INVALID_ACTION
+
+    def mouse_over(self, cursor_position):
+        self.is_mouse_over = self.rect.collidepoint(cursor_position)
+
+        if self.is_mouse_over == True:
+            if self.mouse_over_histoy == False:
+                #draw hover image
+                self.mouse_over_histoy = True
+        else:
+            if self.mouse_over_histoy == True:
+                self.mouse_over_histoy = False
+                #draw hover out image
+
+
+class PlayButton(ButtonBase):
 
     def __init__(self, x, y):
-        play_sprite = MenuItems(localtypes.PLAY_BUTTON)
-        play_sprite.rect.x = x
-        play_sprite.rect.y = y
-        self.play_button = pygame.sprite.GroupSingle(play_sprite)
+        ButtonBase.__init__(self, localtypes.PLAY_BUTTON)
+        self.rect.x = x
+        self.rect.y = y
+        self.play_button = pygame.sprite.GroupSingle(self)
 
     def draw(self, screen):
         self.play_button.draw(screen)
 
+    def on_click(self):
+        if self.is_mouse_over:
+            print "PlayButton:Over click"
+            self.click_action = localtypes.PLAY_ACTION
+        else:
+            print "PlayButton:Outside click"

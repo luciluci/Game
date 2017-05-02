@@ -24,3 +24,8 @@ STONE_PLATFORM_RIGHT  = (792, 648, 70, 40)
 #Main menu images
 HEART_BUTTON = (0, 0, 200, 188)
 PLAY_BUTTON = (0, 376, 200, 188)
+
+#Main menu button actions
+INVALID_ACTION = -1
+PLAY_ACTION    = 1
+

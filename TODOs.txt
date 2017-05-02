@@ -5,3 +5,5 @@
 	* nr of lives, 
 4. create animation for the player/bird
 5. add sounds
+6. create event manager for click - DONE
+7. Create state machine for menus and levels

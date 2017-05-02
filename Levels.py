@@ -1,16 +1,32 @@
 from Scenary import Platform, PlayButton
+from utilities import EventManager
 
 import pygame
 import localtypes
 
+
 class MainMenu:
     def __init__(self):
+        self.event_manager = EventManager.Broadcaster()
         self.background = pygame.image.load("resources/background_01.png").convert()
         self.play_button = PlayButton(100, 100)
+        self._register_buttons()
+
+    def _register_buttons(self):
+        self.event_manager.on_click += self.play_button.on_click
+
+    def _unregister_buttons(self):
+        self.event_manager.on_click -= self.play_button.on_click
+
+    def fire_events(self):
+        self.event_manager.on_click.fire()
 
     def draw(self, screen):
         screen.blit(self.background, (0,0))
         self.play_button.draw(screen)
+
+    def mouse_over(self, cursor_position):
+        self.play_button.mouse_over(cursor_position)
 
 class Level:
 
@@ -106,10 +122,17 @@ if __name__ == "__main__":
     done = False
 
     while not done:
+        #print "mouse at: ", pygame.mouse.get_pos()
+
+        mm.mouse_over(pygame.mouse.get_pos())
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_0:
                     done = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                #print "mouse pressed at: ", pygame.mouse.get_pos()
+                mm.fire_events()
 
         mm.draw(screen)
 
