@@ -122,8 +122,6 @@ if __name__ == "__main__":
     done = False
 
     while not done:
-        #print "mouse at: ", pygame.mouse.get_pos()
-
         mm.mouse_over(pygame.mouse.get_pos())
 
         for event in pygame.event.get():
