@@ -4,3 +4,4 @@
 3. Create start-end game lifecycle
 	* nr of lives, 
 4. create animation for the player/bird
+5. add sounds

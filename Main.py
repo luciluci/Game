@@ -13,6 +13,7 @@ def main():
     player = Player()
 
     active_sprite_list = pygame.sprite.Group()
+
     current_level = Level_01(player)
     player.level = current_level
 
@@ -29,6 +30,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                print "mouse pressed at: ", pygame.mouse.get_pos()
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_0:
                     done = True

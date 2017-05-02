@@ -1,7 +1,16 @@
-from Scenary import Platform
+from Scenary import Platform, PlayButton
 
 import pygame
 import localtypes
+
+class MainMenu:
+    def __init__(self):
+        self.background = pygame.image.load("resources/background_01.png").convert()
+        self.play_button = PlayButton(100, 100)
+
+    def draw(self, screen):
+        screen.blit(self.background, (0,0))
+        self.play_button.draw(screen)
 
 class Level:
 
@@ -87,3 +96,21 @@ class Level_01(Level):
         block.level = self
         self.platform_list.add(block)
 
+if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode(localtypes.screen_size)
+    pygame.display.set_caption("Bird Jumper")
+    clock = pygame.time.Clock()
+    clock.tick(60)
+    mm = MainMenu()
+    done = False
+
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_0:
+                    done = True
+
+        mm.draw(screen)
+
+        pygame.display.flip()

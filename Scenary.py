@@ -1,5 +1,7 @@
-import pygame
 from spritesheet_functions import SpriteSheet
+import localtypes
+
+import pygame
 
 class Platform(pygame.sprite.Sprite):
     """ Platform the user can jump on """
@@ -18,3 +20,27 @@ class Platform(pygame.sprite.Sprite):
                                             sprite_sheet_data[3])
 
         self.rect = self.image.get_rect()
+
+class MenuItems(pygame.sprite.Sprite):
+
+    def __init__(self, sprite_sheet_data):
+        pygame.sprite.Sprite.__init__(self)
+        sprite_sheet = SpriteSheet("resources/Menu_Items.png")
+
+        self.image = sprite_sheet.get_image(sprite_sheet_data[0],
+                                           sprite_sheet_data[1],
+                                           sprite_sheet_data[2],
+                                           sprite_sheet_data[3])
+        self.rect = self.image.get_rect()
+
+class PlayButton:
+
+    def __init__(self, x, y):
+        play_sprite = MenuItems(localtypes.PLAY_BUTTON)
+        play_sprite.rect.x = x
+        play_sprite.rect.y = y
+        self.play_button = pygame.sprite.GroupSingle(play_sprite)
+
+    def draw(self, screen):
+        self.play_button.draw(screen)
+
