@@ -7,3 +7,4 @@
 5. add sounds
 6. create event manager for click - DONE
 7. Create state machine for menus and levels
+8. create play button with mouse over, click and image change on mouseover
