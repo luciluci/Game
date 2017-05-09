@@ -24,6 +24,8 @@ class EventHook(object):
 class Broadcaster:
     def __init__(self):
         self.on_click = EventHook()
+        self.on_screen_change = EventHook()
+        self.on_key_press = EventHook()
 
 def myFunction():
     print "test"

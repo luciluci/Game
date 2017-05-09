@@ -5,7 +5,7 @@ player_width = 40
 player_height = 40
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, platform_list):
         pygame.sprite.Sprite.__init__(self)
 
         self.images = []
@@ -27,9 +27,11 @@ class Player(pygame.sprite.Sprite):
         self.change_x = 0
         self.change_y = 0
 
-        self.level = None
+        self.platform_list = platform_list
 
         self.is_fade_stop = False
+
+        self.player_single_group = pygame.sprite.GroupSingle(self)
 
     def update(self):
         self.apply_gravity()
@@ -37,7 +39,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.change_x
 
-        colision_sprite = pygame.sprite.spritecollideany(self, self.level.platform_list, False)
+        colision_sprite = pygame.sprite.spritecollideany(self, self.platform_list, False)
         if colision_sprite:
             print "COLLISION"
 
@@ -72,6 +74,9 @@ class Player(pygame.sprite.Sprite):
             if self.change_x <= 0.3 and self.change_x >= -0.3:
                 self.change_x = 0
                 self.is_fade_stop = False
+
+    def draw(self, screen):
+        self.player_single_group.draw(screen)
 
 
     def apply_gravity(self):
