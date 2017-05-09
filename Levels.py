@@ -1,53 +1,9 @@
 from Scenary import Platform, PlayButton
-from utilities import EventManager
+from Bosses import EventManager
 from Bird import Player
 
 import pygame
 import localtypes
-
-class ScreenManager:
-    def __init__(self, screen):
-        self.screen = screen
-        self.event_manager = EventManager.Broadcaster()
-        self.main_menu = MainMenu(self.event_manager)
-        self.level01 = Level_01(self.event_manager)
-
-        self.levels = [self.main_menu, self.level01]
-        self.level_index = 0
-
-        self.current_level = self.levels[self.level_index]
-
-        self.register_to_events()
-
-    def register_to_events(self):
-        self.event_manager.on_screen_change += self.next_screen
-        self.event_manager.on_key_press += self.key_event_triggered
-
-    def next_screen(self):
-        self.level_index += 1
-        self.current_level = self.levels[self.level_index%len(self.levels)]
-        self.draw()
-
-    def draw(self):
-        self.current_level.draw(self.screen)
-
-    def fire_event_click(self):
-        self.event_manager.on_click.fire()
-
-    def key_event_triggered(self, key):
-        self.event_manager.on_key_press.fire(key)
-
-    def shit_world(self):
-        if self.current_level.level_type == localtypes.LEVEL_TYPE_LEVELS:
-            self.current_level.shift_world(-5)
-
-    def update(self):
-        if self.current_level.level_type == localtypes.LEVEL_TYPE_LEVELS:
-            self.current_level.update()
-
-    def listen_mouse_over(self, cursor_pos):
-        if self.current_level.level_type == localtypes.LEVEL_TYPE_MAIN_MENU:
-            self.current_level.mouse_over(cursor_pos)
 
 
 class MainMenu:
@@ -55,15 +11,15 @@ class MainMenu:
         #self.event_manager = EventManager.Broadcaster()
         self.event_manager = event_manager
         self.background = pygame.image.load("resources/background_01.png").convert()
-        self.play_button = PlayButton(100, 100)
-        self.register_event()
+        self.play_button = PlayButton(100, 100, self.event_manager)
+        #self.register_event()
 
         self.level_type = localtypes.LEVEL_TYPE_MAIN_MENU
 
-    def register_event(self):
+    def register_events(self):
         self.event_manager.on_click += self.play_button.on_click
 
-    def unregister_event(self):
+    def unregister_events(self):
         self.event_manager.on_click -= self.play_button.on_click
 
     #def fire_events(self):
@@ -94,6 +50,7 @@ class Level:
         self.event_manager = event_manager
 
         self.level_type = localtypes.LEVEL_TYPE_LEVELS
+        #self.register_events()
 
     def update(self):
         self.platform_list.update()
@@ -116,11 +73,14 @@ class Level:
             #for enemy in self.enemy_list:
             #    enemy.rect.x += shift_x
 
-    def trigger_end_level(self):
+    def fire_end_level(self):
         self.event_manager.on_screen_change.fire()
 
-    def register_to_events(self):
+    def register_events(self):
         self.event_manager.on_key_press += self.key_press_action
+
+    def unregister_events(self):
+        self.event_manager.on_key_press -= self.key_press_action
 
     def key_press_action(self, key):
         if key == localtypes.KEY_UP:
@@ -129,7 +89,7 @@ class Level:
             self.player.go_right()
         elif key == localtypes.KEY_LEFT:
             self.player.go_left()
-        elif key == localtypes.RELEASE_KEY:
+        elif key == localtypes.KEY_RELEASED:
             if self.player.change_x is not 0:
                 self.player.is_fade_stop = True
         else:

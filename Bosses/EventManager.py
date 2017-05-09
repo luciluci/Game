@@ -1,3 +1,5 @@
+#EventHook manages each type of event being used.
+#It plays the role of an event Observer, it triggers specific events to theyr registered callbacks
 
 class EventHook(object):
 
@@ -21,6 +23,7 @@ class EventHook(object):
             if theHandler.im_self == inObject:
                 self -= theHandler
 
+#Broadcaster manages all EventHook needed, it has one member for each event type
 class Broadcaster:
     def __init__(self):
         self.on_click = EventHook()
