@@ -1,9 +1,18 @@
 1. Create main menu
 	* 1 screen with "play->levels screen, exit"
-2. Create high score
-3. Create start-end game lifecycle
-	* nr of lives, 
+2. Screen transition can be:
+    Main Menu (click play)-> Select current menu(click menu) -> Level_X
+3. Create start-end game lifecycle/events
+	* nr of lives ends(dead)
+	* end of level reached(next level will be active)
 4. create animation for the player/bird
 5. add sounds
-6. create event manager for click - DONE
-7. Create state machine for menus and levels
+6. add actual buttons for:
+    6.1. Play Button (only images)
+        determine and change button coordinates and mouse over/out coordinates
+    6.2. Settings button
+7. Add persistance for users:
+    7.1. Add library to store/get/update/read the data for each user
+8. Add more data in Main Menu like:
+    7.1. High score
+    7.2. Last score
