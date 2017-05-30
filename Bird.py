@@ -1,3 +1,5 @@
+from spritesheet_functions import SpriteSheet
+
 import pygame
 import localtypes
 
@@ -14,11 +16,33 @@ class Player(pygame.sprite.Sprite):
         frame2 = pygame.Surface([player_width, player_height])
         frame2.fill(localtypes.BLACK)
 
-        self.images.append(frame1)
-        self.images.append(frame2)
+        sprite_sheet = SpriteSheet("resources/rsz_flyinggamecharacter.png")
 
-        self.index = 0
-        self.image = self.images[self.index]
+        image_1 = sprite_sheet.get_image(localtypes.BIRD_SCENE_1[0],
+                                         localtypes.BIRD_SCENE_1[1],
+                                         localtypes.BIRD_SCENE_1[2],
+                                         localtypes.BIRD_SCENE_1[3])
+        image_2 = sprite_sheet.get_image(localtypes.BIRD_SCENE_2[0],
+                                         localtypes.BIRD_SCENE_2[1],
+                                         localtypes.BIRD_SCENE_2[2],
+                                         localtypes.BIRD_SCENE_2[3])
+        image_3 = sprite_sheet.get_image(localtypes.BIRD_SCENE_3[0],
+                                         localtypes.BIRD_SCENE_3[1],
+                                         localtypes.BIRD_SCENE_3[2],
+                                         localtypes.BIRD_SCENE_3[3])
+        image_4 = sprite_sheet.get_image(localtypes.BIRD_SCENE_4[0],
+                                         localtypes.BIRD_SCENE_4[1],
+                                         localtypes.BIRD_SCENE_4[2],
+                                         localtypes.BIRD_SCENE_4[3])
+
+        self.images.append(image_1)
+        self.images.append(image_2)
+        self.images.append(image_3)
+        self.images.append(image_4)
+        #self.images.append(frame1)
+        #self.images.append(frame2)
+
+        self.image = self.images[0]
 
         #self.rect = pygame.Surface([player_width, player_height])#self.image.get_rect()
         self.rect = self.image.get_rect()
@@ -33,6 +57,10 @@ class Player(pygame.sprite.Sprite):
 
         self.player_single_group = pygame.sprite.GroupSingle(self)
 
+        #Number of updates/steps afeter jump is pressed,
+        #used to change the image of the character from one frame to the other
+        self.nrUpdatesAfterJump = 0
+
     def update(self):
         self.apply_gravity()
         self.apply_horizontal_fade()
@@ -40,9 +68,28 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += self.change_x
 
         colision_sprite = pygame.sprite.spritecollideany(self, self.platform_list, False)
-        if colision_sprite:
-            print "COLLISION"
+        #if colision_sprite:
+            #print "COLLISION"
+
         self.rect.y += self.change_y
+
+        #if self.change_y < 2 and self.change_y > 1:# and self.imageChanged == False:
+        #    self.image = self.images[1]
+        #    print "Change"
+            #self.imageChanged = True
+
+        if self.change_y != 0:
+            self.nrUpdatesAfterJump += 1
+            if self.nrUpdatesAfterJump == 3:
+                self.image = self.images[3]
+            #if self.nrUpdatesAfterJump == 4:
+            #    self.image = self.images[2]
+            #if self.nrUpdatesAfterJump == 5:
+            #    self.image = self.images[3]
+            if self.nrUpdatesAfterJump == 6:
+                self.image = self.images[0]
+
+        #print self.change_y
 
     def apply_horizontal_fade(self):
         if self.is_fade_stop == True:
@@ -66,15 +113,18 @@ class Player(pygame.sprite.Sprite):
         if self.rect.y >= localtypes.SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
             self.change_y = 0
             self.rect.y = localtypes.SCREEN_HEIGHT - self.rect.height
+        # See if we reached the ceiling.
         if self.rect.y <= 0:
             print "WARNING! ceiling reached"
 
     def jump(self):
-        self.index += 1
-        if self.index >= len(self.images):
-            self.index = 0
-        self.image = self.images[self.index]
-        self.change_y = -10
+        print "JUMP"
+        self.nrUpdatesAfterJump = 0
+        #self.index += 1
+        #if self.index >= len(self.images):
+        #    self.index = 0
+        self.image = self.images[0]
+        self.change_y = -localtypes.JUMP_AMPLITUDE
 
     def fade_stop(self):
         if self.change_x < 0:

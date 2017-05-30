@@ -11,8 +11,9 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen_size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 
-#Planets Gravity index
-EARTH_GRAVITY = 0.60
+#Juming data:Planets Gravity index and jump aplitude
+EARTH_GRAVITY = 0.9
+JUMP_AMPLITUDE = 10
 
 GRASS_LEFT            = (576, 720, 70, 70)
 GRASS_RIGHT           = (576, 576, 70, 70)
@@ -20,6 +21,12 @@ GRASS_MIDDLE          = (504, 576, 70, 70)
 STONE_PLATFORM_LEFT   = (432, 720, 70, 40)
 STONE_PLATFORM_MIDDLE = (648, 648, 70, 40)
 STONE_PLATFORM_RIGHT  = (792, 648, 70, 40)
+
+#Bird images coordinates(x, y, width, height)
+BIRD_SCENE_1 = (0, 0, 61, 41)
+BIRD_SCENE_2 = (61, 0, 61, 41)
+BIRD_SCENE_3 = (122, 0, 61, 41)
+BIRD_SCENE_4 = (183, 0, 61, 41)
 
 #Main menu images
 HEART_BUTTON = (0, 0, 200, 188)
